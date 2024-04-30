@@ -1,6 +1,18 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { logout } from "../../pages/login/service";
 
 export default function Header() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login"); // Navigate to login page after logout
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <header>
       <h1>NodePop</h1>
@@ -17,7 +29,7 @@ export default function Header() {
             </NavLink>
           </li>
           <li>
-            <button>Log Out</button>
+            <button onClick={handleLogout}>Log Out</button>
           </li>
         </ul>
       </nav>

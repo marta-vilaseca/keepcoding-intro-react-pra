@@ -7,19 +7,23 @@ export function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { onLogin } = useAuth();
-  const [formValues, setFormValues] = useState({ email: "", password: "" });
+  const [formValues, setFormValues] = useState({ email: "", password: "", rememberMe: false });
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
   const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const newValue = type === "checkbox" ? checked : value;
+
     setFormValues((currentFormValues) => ({
       ...currentFormValues,
-      [event.target.name]: event.target.value,
+      [name]: newValue,
     }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // console.log(formValues);
 
     try {
       setIsFetching(true);
@@ -36,7 +40,7 @@ export function LoginPage() {
 
   const resetError = () => setError(null);
 
-  const { email, password } = formValues;
+  const { email, password, rememberMe } = formValues;
   const buttonDisabled = !email || !password || isFetching;
   return (
     <>
@@ -53,6 +57,12 @@ export function LoginPage() {
             Password
           </label>
           <input className="form__inputfield" type="password" id="password" name="password" value={password} onChange={handleChange} required />
+        </p>
+        <p>
+          <label className="form__label" htmlFor="password">
+            Remember me
+          </label>
+          <input type="checkbox" id="rememberMe" name="rememberMe" value={rememberMe} onChange={handleChange} />
         </p>
         <button className="form__button" type="submit" disabled={buttonDisabled}>
           Log in

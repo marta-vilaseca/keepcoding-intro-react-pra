@@ -10,9 +10,7 @@ export default function AdvertListItem({ id, name, price, sale, tags }) {
       <p>{price} €</p>
       <ul>
         {tags.map((tag) => (
-          <li key={tag}>
-            <Link to={`/adverts?tags=${tag}`}>{tag}</Link>
-          </li>
+          <li key={tag}>{tag}</li>
         ))}
       </ul>
     </>

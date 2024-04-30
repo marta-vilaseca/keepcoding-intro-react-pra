@@ -9,12 +9,7 @@ export function AdvertsPage() {
 
   useEffect(() => {
     getAdverts().then((adverts) => {
-      setAdverts(() => {
-        if (Math.random() > 0.9) {
-          throw new Error("Ooops");
-        }
-        return adverts;
-      });
+      setAdverts(adverts);
     });
   }, []);
 

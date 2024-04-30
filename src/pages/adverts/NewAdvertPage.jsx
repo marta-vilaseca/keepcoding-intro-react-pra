@@ -11,6 +11,7 @@ export function NewAdvertPage() {
     tags: [],
   });
   const navigate = useNavigate();
+  const inputFileRef = useRef();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,8 +26,6 @@ export function NewAdvertPage() {
       }
     }
   };
-
-  const inputFileRef = useRef();
 
   const handleChange = (event) => {
     // const { name, value } = event.target;
@@ -44,6 +43,8 @@ export function NewAdvertPage() {
       setFormValues({ ...formValues, [name]: value });
     }
   };
+
+  const buttonDisabled = !formValues.name || !formValues.price || formValues.tags.length === 0;
 
   return (
     <Layout title="Create New Advert">
@@ -95,7 +96,7 @@ export function NewAdvertPage() {
             <label htmlFor="work">Work</label>
           </span>
         </fieldset>
-        <button className="form__button" type="submit">
+        <button className="form__button" type="submit" disabled={buttonDisabled}>
           Crear anuncio
         </button>
         <p className="form__footnote">
