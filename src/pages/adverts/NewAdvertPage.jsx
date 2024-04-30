@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Layout from "../../components/layout/Layout";
 import { createAdvert } from "./service";
 
 export function NewAdvertPage() {
@@ -14,7 +15,9 @@ export function NewAdvertPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const createdAdvert = await createAdvert({ ...formValues, photo: inputFileRef.current.files[0] });
+      let photo = null;
+      if (inputFileRef.current.files.length > 0) photo = inputFileRef.current.files[0];
+      const createdAdvert = await createAdvert({ ...formValues, photo });
       navigate(`/adverts/${createdAdvert.id}`);
     } catch (error) {
       if (error.status === 401) {
@@ -43,8 +46,7 @@ export function NewAdvertPage() {
   };
 
   return (
-    <>
-      <h2>Create New Advert</h2>
+    <Layout title="Create New Advert">
       <form id="listing-creation-form" onSubmit={handleSubmit} encType="multipart/form-data">
         <div id="loader" className="hidden">
           <div className="loader"></div>
@@ -100,6 +102,6 @@ export function NewAdvertPage() {
           <em>*</em> campos obligatorios
         </p>
       </form>
-    </>
+    </Layout>
   );
 }

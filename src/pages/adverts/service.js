@@ -22,7 +22,9 @@ export const createAdvert = (adData) => {
   formData.append("price", adData.price);
   formData.append("sale", adData.sale);
   formData.append("tags", adData.tags);
-  formData.append("photo", adData.photo);
+  if (adData.photo !== null && adData.photo !== undefined) {
+    formData.append("photo", adData.photo);
+  }
 
   return client.post(url, formData);
 };

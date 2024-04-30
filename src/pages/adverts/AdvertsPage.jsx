@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import AdvertListItem from "../../components/advert/AdvertListItem";
+import AdvertListItem from "../../components/adverts/AdvertListItem";
+import EmptyList from "../../components/adverts/EmptyList";
+import Layout from "../../components/layout/Layout";
 import { getAdverts } from "./service";
 
 export function AdvertsPage() {
@@ -18,25 +19,22 @@ export function AdvertsPage() {
   }, []);
 
   return (
-    <div>
-      <h2>Adverts</h2>
-      <p>Test</p>
-      <div className="tweetsPage">
-        {adverts.length ? (
+    <>
+      {adverts.length ? (
+        <Layout title="Adverts">
           <ul>
             {adverts.map(({ id, ...advert }) => (
               <li key={id}>
-                <Link to={`/adverts/${id}`}>
-                  <AdvertListItem {...advert} />
-                </Link>
+                <AdvertListItem id={id} {...advert} />
               </li>
             ))}
           </ul>
-        ) : (
-          // <EmptyList />
-          <p>No adverts</p>
-        )}
-      </div>
-    </div>
+        </Layout>
+      ) : (
+        <Layout title="¡No hay anuncios todavía!">
+          <EmptyList />
+        </Layout>
+      )}
+    </>
   );
 }
