@@ -8,9 +8,11 @@ export function AdvertsPage() {
   const [adverts, setAdverts] = useState([]);
   const [allTags, setAllTags] = useState([]);
 
-  const [nameFilter, setNameFilter] = useState("");
-  const [tagFilter, setTagFilter] = useState("");
-  const [saleFilter, setSaleFilter] = useState("all");
+  const [formData, setFormData] = useState({
+    nameFilter: "",
+    tagsFilter: [],
+    saleFilter: "all",
+  });
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -35,23 +37,47 @@ export function AdvertsPage() {
   }, []);
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    if (name === "saleFilter") {
-      setSaleFilter(value === "all" ? "all" : value === "true");
-    } else if (name === "tagFilter") {
-      setTagFilter(value);
+    const { name, value, type, checked } = event.target;
+
+    if (name === "tagsFilter" && value === "") {
+      setFormData((prevState) => ({
+        ...prevState,
+        tagsFilter: [],
+      }));
     } else {
-      setNameFilter(value);
+      if (type === "checkbox") {
+        const updatedTags = checked ? [...formData.tagsFilter, value] : formData.tagsFilter.filter((tag) => tag !== value);
+
+        setFormData((prevState) => ({
+          ...prevState,
+          tagsFilter: updatedTags,
+        }));
+      } else {
+        const processedValue = value === "true" ? true : value === "false" ? false : value;
+        setFormData((prevState) => ({
+          ...prevState,
+          [name]: processedValue,
+        }));
+      }
     }
   };
 
   const filteredAdverts = adverts.filter((advert) => {
-    const nameMatch = advert.name.toLowerCase().startsWith(nameFilter.toLowerCase());
-    const saleMatch = saleFilter === "all" || advert.sale === saleFilter;
-    const tagMatch = !tagFilter || advert.tags.includes(tagFilter);
+    const nameMatch = advert.name.toLowerCase().startsWith(formData.nameFilter.toLowerCase());
+    const saleMatch = formData.saleFilter === "all" || advert.sale === formData.saleFilter;
+    const tagMatch = formData.tagsFilter.length === 0 || formData.tagsFilter.some((tag) => advert.tags.includes(tag));
 
     return nameMatch && saleMatch && tagMatch;
   });
+
+  const handleClear = () => {
+    event.preventDefault();
+    setFormData({
+      nameFilter: "",
+      tagsFilter: [],
+      saleFilter: "all",
+    });
+  };
 
   return (
     <>
@@ -59,26 +85,25 @@ export function AdvertsPage() {
         <Layout title="Adverts">
           <div>
             <form id="advertFilters">
-              <input
-                type="text"
-                value={nameFilter}
-                onChange={(event) => {
-                  setNameFilter(event.target.value);
-                }}
-              />
-              <select name="saleFilter" value={saleFilter} onChange={handleChange}>
+              <input name="nameFilter" type="text" value={formData.nameFilter} onChange={handleChange} />
+              <select name="saleFilter" value={formData.saleFilter} onChange={handleChange}>
                 <option value="all">All</option>
                 <option value="true">Sale</option>
                 <option value="false">Wanted</option>
               </select>
-              <select name="tagFilter" value={tagFilter} onChange={handleChange}>
-                <option value="">All Tags</option>
+              <div>
+                <label>
+                  <input type="checkbox" name="tagsFilter" value="" checked={formData.tagsFilter.length === 0} onChange={handleChange} />
+                  Any Tag
+                </label>
                 {allTags.map((tag) => (
-                  <option key={tag} value={tag}>
+                  <label key={tag}>
+                    <input type="checkbox" name="tagsFilter" value={tag} checked={formData.tagsFilter.includes(tag)} onChange={handleChange} />
                     {tag}
-                  </option>
+                  </label>
                 ))}
-              </select>
+              </div>
+              <button onClick={handleClear}>Clear</button>
             </form>
           </div>
           <ul>
