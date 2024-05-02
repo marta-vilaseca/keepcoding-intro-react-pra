@@ -1,10 +1,10 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
+import RequireAuth from "./components/auth/RequireAuth";
 import { AdvertPage } from "./pages/adverts/AdvertPage";
 import { AdvertsPage } from "./pages/adverts/AdvertsPage";
 import { NewAdvertPage } from "./pages/adverts/NewAdvertPage";
 import { LoginPage } from "./pages/login/LoginPage";
-import RequireAuth from "./pages/login/RequireAuth";
 
 function App() {
   return (

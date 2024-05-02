@@ -28,3 +28,8 @@ export const createAdvert = (adData) => {
 
   return client.post(url, formData);
 };
+
+export const deleteAdvert = (adId) => {
+  const url = `${adsUrl}/${adId}`;
+  return client.delete(url);
+};

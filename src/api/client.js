@@ -25,3 +25,20 @@ export const setAuthorizationHeader = (token) => (client.defaults.headers.common
 export const removeAuthorizationHeader = () => {
   delete client.defaults.headers.common["Authorization"];
 };
+
+export const getUserName = async (token) => {
+  try {
+    const response = await client.get("/api/auth/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { username } = response;
+
+    return username;
+  } catch (error) {
+    console.error("Error fetching user details:", error);
+    throw error;
+  }
+};

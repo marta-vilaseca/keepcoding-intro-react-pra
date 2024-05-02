@@ -1,6 +1,6 @@
 import P from "prop-types";
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./context";
+import { useAuth } from "../../pages/login/AuthContextProvider";
 
 function RequireAuth({ children }) {
   const location = useLocation();

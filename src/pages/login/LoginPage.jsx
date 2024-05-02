@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "./context.jsx";
+import { useAuth } from "./AuthContextProvider.jsx";
 import { login } from "./service";
 
 export function LoginPage() {
