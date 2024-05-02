@@ -3,6 +3,7 @@ import axios from "axios";
 import { client } from "../../api/client";
 
 const adsUrl = "/api/v1/adverts";
+const tagsUrl = "/api/v1/adverts/tags";
 
 export const getAdverts = () => {
   const url = `${adsUrl}`;
@@ -32,4 +33,9 @@ export const createAdvert = (adData) => {
 export const deleteAdvert = (adId) => {
   const url = `${adsUrl}/${adId}`;
   return client.delete(url);
+};
+
+export const getAllTags = () => {
+  const url = `${tagsUrl}`;
+  return client.get(url);
 };

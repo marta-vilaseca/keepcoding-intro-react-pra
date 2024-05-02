@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Link, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 import RequireAuth from "./components/auth/RequireAuth";
 import { AdvertPage } from "./pages/adverts/AdvertPage";
@@ -27,7 +27,14 @@ function App() {
       </Route>
 
       <Route path="/" element={<Navigate to="/adverts" />} />
-      <Route path="/404" element={<div>404 | Not found</div>} />
+      <Route
+        path="/404"
+        element={
+          <div>
+            404 | Not found | <Link to="/">Home</Link>
+          </div>
+        }
+      />
       <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );
