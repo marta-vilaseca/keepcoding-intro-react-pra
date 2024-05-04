@@ -1,0 +1,50 @@
+.advert__card {
+  padding: 2rem 1rem;
+  border-bottom: 2px dotted var(--mid-gray);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  transition: all 0.2s ease-out;
+  width: 100%;
+}
+
+.advert__card:hover {
+  transform: scale(1.05);
+}
+
+.card__sale {
+  background-color: var(--dark-gray);
+  color: var(--reverse-text-color);
+  font-weight: 600;
+  padding: 0 1rem;
+  border-radius: 1rem;
+}
+
+.card__title {
+  font-size: 2rem;
+
+  a:link,
+  a:visited {
+    color: var(--mid-color);
+    text-decoration: none;
+  }
+}
+
+.card__price {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.card__tags {
+  display: flex;
+  gap: 1rem;
+}
+
+.card__tag {
+  background-color: var(--lighter-gray);
+  color: var(--darker-gray);
+  font-weight: 600;
+  padding: 0 1rem;
+  border-radius: 1rem;
+}

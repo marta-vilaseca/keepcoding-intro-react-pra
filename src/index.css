@@ -1,14 +1,37 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Emoji:wght@300..700&display=swap");
 
 :root {
+  --bg-color: #f3f1ebff;
+  --text-color: #2f3735ff;
+  --reverse-text-color: #f3f1ebff;
+
+  --darker-gray: #424c4aff;
+  --dark-gray: #616f6cff;
+  --mid-gray: #97a7a4ff;
+  --light-gray: ##bdc7c4ff;
+  --lighter-gray: #dcdfdaff;
+
+  --lighter-color: #d7eae1ff;
+  --light-color: #a9dbc9ff;
+  --mid-color: #66cdaaff;
+  --dark-color: #1b8e72ff;
+  --darker-color: #146752ff;
+
+  --accent-dark: #fb9237ff;
+  --accent-color: #fcab64ff;
+  --accent-light: #fcd29fff;
+
+  --error-color: #ec5b5bff;
+  --error-light: #f08080ff;
+
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
   font-weight: 450;
   font-style: normal;
 
   color-scheme: light dark;
-  color: snow;
-  background-color: #222;
+  color: var(--text-color);
+  background-color: var(--bg-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,58 +39,31 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  min-width: 0;
-  margin: 0;
-  padding: 0;
+#root {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+.emojicon {
+  font-family: "Noto Emoji", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
-img,
-video,
-svg {
-  display: block;
-  height: auto;
-  max-width: 100%;
+button,
+input,
+textarea {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 450;
+  font-style: normal;
 }
 
-html {
-  font-size: 10px;
-  scroll-behavior: smooth;
-}
-
-body {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-
-  font-size: 1.5rem;
-  line-height: 2.8rem;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  text-wrap: balance;
-}
-
-p {
-  text-wrap: pretty;
-}
-
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
-    color: #222;
-    background-color: snow;
+    --bg-color: #1e1e1e;
+    --text-color: #fcefefff;
   }
-}
+} */

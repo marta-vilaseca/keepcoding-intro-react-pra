@@ -1,14 +1,15 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { createAdvert } from "./service";
+import { createAdvert } from "../../services/advertsService";
 
 export function NewAdvertPage() {
-  const [formValues, setFormValues] = useState({
+  const [formData, setFormData] = useState({
     name: "",
     price: "",
     sale: false,
     tags: [],
+    photo: null,
   });
   const navigate = useNavigate();
   const inputFileRef = useRef();
@@ -16,35 +17,43 @@ export function NewAdvertPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      let photo = null;
-      if (inputFileRef.current.files.length > 0) photo = inputFileRef.current.files[0];
-      const createdAdvert = await createAdvert({ ...formValues, photo });
+      if (inputFileRef.current.files.length > 0) {
+        const uploadedFile = inputFileRef.current.files[0];
+        const allowedFormats = ["image/jpeg", "image/png"];
+
+        if (allowedFormats.includes(uploadedFile.type)) {
+          formData.photo = uploadedFile;
+        } else {
+          throw new Error("Invalid file format. Only JPEG and PNG images are allowed.");
+        }
+      }
+      const createdAdvert = await createAdvert(formData);
       navigate(`/adverts/${createdAdvert.id}`);
     } catch (error) {
       if (error.status === 401) {
         navigate("/login");
+      } else {
+        console.error(error);
       }
     }
   };
 
   const handleChange = (event) => {
-    // const { name, value } = event.target;
-    // setFormValues({ ...formValues, [name]: value });
     const { name, value, type, checked } = event.target;
     if (type === "checkbox") {
       if (checked) {
-        setFormValues({ ...formValues, tags: [...formValues.tags, value] });
+        setFormData({ ...formData, tags: [...formData.tags, value] });
       } else {
-        setFormValues({ ...formValues, tags: formValues.tags.filter((tag) => tag !== value) });
+        setFormData({ ...formData, tags: formData.tags.filter((tag) => tag !== value) });
       }
     } else if (type === "radio") {
-      setFormValues({ ...formValues, [name]: value === "true" });
+      setFormData({ ...formData, [name]: value === "true" });
     } else {
-      setFormValues({ ...formValues, [name]: value });
+      setFormData({ ...formData, [name]: value });
     }
   };
 
-  const buttonDisabled = !formValues.name || !formValues.price || formValues.tags.length === 0;
+  const buttonDisabled = !formData.name || !formData.price || formData.tags.length === 0;
 
   return (
     <Layout title="Create New Advert">
@@ -56,22 +65,22 @@ export function NewAdvertPage() {
           <label className="form__label" htmlFor="name">
             Nombre <em>*</em>
           </label>
-          <input onChange={handleChange} className="form__inputfield" type="text" id="name" name="name" value={formValues.name} required />
+          <input onChange={handleChange} className="form__inputfield" type="text" id="name" name="name" value={formData.name} required />
         </p>
         <p>
           <label className="form__label" htmlFor="price">
             Precio <em>*</em>
           </label>
-          <input onChange={handleChange} className="form__inputfield" type="number" id="price" name="price" value={formValues.price} required />
+          <input onChange={handleChange} className="form__inputfield" type="number" id="price" name="price" value={formData.price} required />
         </p>
         <fieldset className="form__options">
           <span className="form__label">
             Tipo de anuncio <em>*</em>
           </span>
           <span className="options">
-            <input onChange={handleChange} type="radio" id="venta" name="sale" value={true} checked={formValues.sale === true} />
+            <input onChange={handleChange} type="radio" id="venta" name="sale" value={true} checked={formData.sale === true} />
             <label htmlFor="venta">Venta</label>
-            <input onChange={handleChange} type="radio" id="compra" name="sale" value={false} checked={formValues.sale === false} />
+            <input onChange={handleChange} type="radio" id="compra" name="sale" value={false} checked={formData.sale === false} />
             <label htmlFor="compra">Compra</label>
           </span>
         </fieldset>

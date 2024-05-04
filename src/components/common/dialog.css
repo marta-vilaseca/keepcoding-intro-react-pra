@@ -1,0 +1,58 @@
+.dialog__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 17, 17, 0.3);
+  /* background-color: rgba(255, 255, 255, 0.5); */
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(3px);
+  z-index: 10;
+}
+
+.dialog__box {
+  background-color: var(--bg-color);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.dialog__box p {
+  font-size: 1.8rem;
+  line-height: 3.4rem;
+  font-weight: 600;
+  color: var(--dark-gray);
+}
+
+.dialog__box button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 1rem;
+  margin: 1rem;
+  font-size: 1.5rem;
+  line-height: 3rem;
+  font-weight: 600;
+  width: 6rem;
+}
+
+.dialog__box .button__confirm {
+  background-color: var(--mid-color);
+}
+
+.dialog__box .button__confirm:hover {
+  background-color: var(--dark-color);
+}
+
+.dialog__box .button__cancel {
+  background-color: var(--error-light);
+}
+
+.dialog__box .button__cancel:hover {
+  background-color: var(--error-color);
+}
+
+.dialog__box button:hover {
+  cursor: pointer;
+}

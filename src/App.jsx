@@ -1,9 +1,10 @@
-import { Link, Navigate, Outlet, Route, Routes } from "react-router-dom";
-import "./App.css";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+
 import RequireAuth from "./components/auth/RequireAuth";
 import { AdvertPage } from "./pages/adverts/AdvertPage";
 import { AdvertsPage } from "./pages/adverts/AdvertsPage";
 import { NewAdvertPage } from "./pages/adverts/NewAdvertPage";
+import { ErrorPage } from "./pages/error/ErrorPage";
 import { LoginPage } from "./pages/login/LoginPage";
 
 function App() {
@@ -15,9 +16,7 @@ function App() {
         path="/adverts"
         element={
           <RequireAuth>
-            <div className="container">
-              <Outlet />
-            </div>
+            <Outlet />
           </RequireAuth>
         }
       >
@@ -27,14 +26,7 @@ function App() {
       </Route>
 
       <Route path="/" element={<Navigate to="/adverts" />} />
-      <Route
-        path="/404"
-        element={
-          <div>
-            404 | Not found | <Link to="/">Home</Link>
-          </div>
-        }
-      />
+      <Route path="/404" element={<ErrorPage />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );

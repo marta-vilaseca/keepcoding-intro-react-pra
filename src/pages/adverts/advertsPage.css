@@ -1,0 +1,6 @@
+.adverts__list {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  width: 100%;
+}

@@ -1,6 +1,8 @@
+import "./footer.css";
+
 export default function Footer() {
   return (
-    <footer>
+    <footer className="footer">
       <p>
         <span className="emojicon">👩🏻‍💻</span>
         <a href="https://github.com/marta-vilaseca" target="_blank">
@@ -10,7 +12,7 @@ export default function Footer() {
         <a href="https://keepcoding.io/" target="_blank">
           KeepCoding Tech School
         </a>
-        , 2024
+        (2024)
       </p>
     </footer>
   );

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getUserName } from "../../api/client";
-import storage from "../../utils/storage";
+import { getUserName } from "../api/client";
+import storage from "../utils/storage";
 
 const AuthContext = createContext();
 

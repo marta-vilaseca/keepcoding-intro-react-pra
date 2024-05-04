@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import defaultPhoto from "../../assets/no-photo.png";
+import { Dialog } from "../../components/common/Dialog";
 import Layout from "../../components/layout/Layout";
-import { deleteAdvert, getAdvert } from "./service";
+import { deleteAdvert, getAdvert } from "../../services/advertsService";
+import "./advertpage.css";
 
 export function AdvertPage() {
   const navigate = useNavigate();
   const params = useParams();
   const [advert, setAdvert] = useState(null);
-  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   useEffect(() => {
     async function getAdvertFromService() {
@@ -34,31 +36,38 @@ export function AdvertPage() {
   };
 
   const confirmDelete = () => {
-    setShowConfirmation(true);
+    setShowConfirmDelete(true);
   };
 
   const cancelDelete = () => {
-    setShowConfirmation(false);
+    setShowConfirmDelete(false);
   };
 
   return (
     <>
       {advert && (
-        <Layout title={advert.name}>
-          <div>
-            <button onClick={confirmDelete}>Borrar anuncio</button>
-            <p>Price: {advert.price}</p>
-            <p>Type: {advert.sale ? "Venta" : "Compra"}</p>
-            <p>Tags: {advert.tags.join(", ")}</p>
-            {advert.photo ? <img src={advert.photo} alt={advert.name} style={{ maxWidth: "100%" }} /> : <img src={defaultPhoto} alt="Default" style={{ maxWidth: "100%" }} />}
-          </div>
-          {showConfirmation && (
-            <div>
-              <p>Are you sure you want to delete this ad?</p>
-              <button onClick={handleDelete}>Yes</button>
-              <button onClick={cancelDelete}>No</button>
+        <Layout title={advert.name} page="individual">
+          <div className="advert__individual">
+            <button onClick={confirmDelete} className="button__delete">
+              Borrar anuncio
+            </button>
+            <div className="adv__ind__details">
+              <p className="adv__ind__sale">{advert.sale ? "Venta" : "Compra"}</p>
+
+              <ul className="adv__ind__tags">
+                {advert.tags.map((tag) => (
+                  <li key={tag} className="card__tag">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+              <p className="adv__ind__price card-price">{advert.price}&euro;</p>
             </div>
-          )}
+            <div className="adv__ind__photo">
+              {advert.photo ? <img src={advert.photo} alt={advert.name} style={{ maxWidth: "100%" }} /> : <img src={defaultPhoto} alt="Default" style={{ maxWidth: "100%" }} />}
+            </div>
+          </div>
+          {showConfirmDelete && <Dialog dialogText="Are you sure you want to delete this ad?" confirmAction={handleDelete} cancelAction={cancelDelete} />}
         </Layout>
       )}
     </>
