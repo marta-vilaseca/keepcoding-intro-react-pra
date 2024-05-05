@@ -4,8 +4,8 @@ import RequireAuth from "./components/auth/RequireAuth";
 import { AdvertPage } from "./pages/adverts/AdvertPage";
 import { AdvertsPage } from "./pages/adverts/AdvertsPage";
 import { NewAdvertPage } from "./pages/adverts/NewAdvertPage";
-import { ErrorPage } from "./pages/error/ErrorPage";
 import { LoginPage } from "./pages/login/LoginPage";
+import { NotFoundPage } from "./pages/notfound/NotFoundPage";
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
       </Route>
 
       <Route path="/" element={<Navigate to="/adverts" />} />
-      <Route path="/404" element={<ErrorPage />} />
+      <Route path="/404" element={<NotFoundPage />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );

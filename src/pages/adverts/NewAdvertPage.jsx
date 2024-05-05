@@ -80,7 +80,7 @@ export function NewAdvertPage() {
   const buttonDisabled = !formData.name || !formData.price || formData.tags.length === 0;
 
   return (
-    <Layout title="Create New Advert" page="createAdvert">
+    <Layout title="Create New Advert" page="createAdvert" showTitle>
       <form id="listing-creation-form" className="create-advert__form" onSubmit={handleSubmit} encType="multipart/form-data">
         <div id="loader" className="hidden">
           <div className="loader"></div>

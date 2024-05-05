@@ -54,7 +54,7 @@ export function AdvertPage() {
   return (
     <>
       {advert && (
-        <Layout title={advert.name} page="individual">
+        <Layout title={advert.name} page="individual" showTitle>
           {error && (
             <div className="error-message" onClick={resetError}>
               ERROR {error.status}: {error.message}
