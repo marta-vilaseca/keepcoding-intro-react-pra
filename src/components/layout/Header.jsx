@@ -63,14 +63,12 @@ export default function Header() {
             </p>
             <ul className="nav__navigation">
               <li>
-                <NavLink to="/adverts" className={(navData) => (navData.isActive ? "active-style" : "none")}>
+                <NavLink to="/adverts" end>
                   Adverts
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/adverts/new" className={(navData) => (navData.isActive ? "active-style" : "none")}>
-                  Create new advert
-                </NavLink>
+                <NavLink to="/adverts/new">Create new advert</NavLink>
               </li>
               <li>
                 <button className="nav__button" onClick={confirmLogout}>

@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import AdvertListItem from "../../components/adverts/AdvertListItem";
 import EmptyList from "../../components/adverts/EmptyList";
+import { Button } from "../../components/common/Button";
+import { FormCheckbox } from "../../components/common/formCheckbox";
+import { FormInputText } from "../../components/common/formInputText";
+import { FormSelect } from "../../components/common/formSelect";
 import Layout from "../../components/layout/Layout";
 import { getAdverts, getAllTags } from "../../services/advertsService";
 import "./advertsPage.css";
 
 export function AdvertsPage() {
+  const [error, setError] = useState(null);
   const [adverts, setAdverts] = useState([]);
   const [allTags, setAllTags] = useState([]);
 
@@ -21,7 +27,7 @@ export function AdvertsPage() {
         const tags = await getAllTags();
         setAllTags(tags);
       } catch (error) {
-        console.error("Failed to fetch tags:", error);
+        setError(`Failed to fetch tags: ${error.message}`);
       }
     };
     fetchTags();
@@ -31,11 +37,13 @@ export function AdvertsPage() {
         const adverts = await getAdverts();
         setAdverts(adverts);
       } catch (error) {
-        console.error("Failed to fetch adverts:", error);
+        setError(`Failed to fetch adverts: ${error.message}`);
       }
     };
     fetchAdverts();
   }, []);
+
+  const resetError = () => setError(null);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -83,39 +91,45 @@ export function AdvertsPage() {
   return (
     <>
       {adverts.length ? (
-        <Layout title="Adverts">
-          <form id="advertFilters">
-            <input name="nameFilter" type="text" value={formData.nameFilter} onChange={handleChange} />
-            <select name="saleFilter" value={formData.saleFilter} onChange={handleChange}>
-              <option value="all">All</option>
-              <option value="true">Sale</option>
-              <option value="false">Wanted</option>
-            </select>
-            <div>
-              <label>
-                <input type="checkbox" name="tagsFilter" value="" checked={formData.tagsFilter.length === 0} onChange={handleChange} />
-                Any Tag
-              </label>
-              {allTags.map((tag) => (
-                <label key={tag}>
-                  <input type="checkbox" name="tagsFilter" value={tag} checked={formData.tagsFilter.includes(tag)} onChange={handleChange} />
-                  {tag}
-                </label>
+        <Layout page="adverts">
+          <div className="adverts__filter">
+            <form>
+              <FormInputText name="nameFilter" value={formData.nameFilter} onChange={handleChange} />
+              <FormSelect name="saleFilter" value={formData.saleFilter} onChange={handleChange} options={{ all: "All", true: "Sale", false: "Wanted" }} />
+              <div className="tag__options">
+                <FormCheckbox key="any" id="any" labelText="any tag" name="tagsFilter" value="" checked={formData.tagsFilter.length === 0} onChange={handleChange} />
+                {allTags.map((tag) => (
+                  <FormCheckbox key={tag} id={tag} labelText={tag} name="tagsFilter" value={tag} checked={formData.tagsFilter.includes(tag)} onChange={handleChange} />
+                ))}
+              </div>
+              <Button onClick={handleClear}>Clear</Button>
+            </form>
+          </div>
+          {filteredAdverts.length > 0 ? (
+            <ul className="adverts__list">
+              {filteredAdverts.map(({ id, ...advert }) => (
+                <AdvertListItem key={id} id={id} {...advert} />
               ))}
-            </div>
-            <button onClick={handleClear}>Clear</button>
-          </form>
-          <ul className="adverts__list">
-            {filteredAdverts.map(({ id, ...advert }) => (
-              <li key={id}>
-                <AdvertListItem id={id} {...advert} />
-              </li>
-            ))}
-          </ul>
+            </ul>
+          ) : (
+            <EmptyList title="No se han encontrado anuncios con estos filtros">
+              <p>(Prueba de quitar alguno)</p>
+            </EmptyList>
+          )}
         </Layout>
       ) : (
-        <Layout title="¡No hay anuncios todavía!">
-          <EmptyList />
+        <Layout page="adverts">
+          {error && (
+            <div className="error-message" onClick={resetError}>
+              ERROR: {error}
+            </div>
+          )}
+          <EmptyList title="¡No hay anuncios todavía!">
+            <p>¿Te animas a crear el primero?</p>
+            <Link to="/adverts/new" className="button__link">
+              Crear anuncio
+            </Link>
+          </EmptyList>
         </Layout>
       )}
     </>

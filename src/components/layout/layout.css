@@ -25,6 +25,10 @@
     font-size: 2.5rem;
     font-weight: 700;
   }
+
+  .error-message {
+    margin: 2rem 0 -2rem 0;
+  }
 }
 
 .login {
@@ -48,7 +52,15 @@
 
   display: grid;
   place-items: center;
+
+  .error-message {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
 }
 
-body.create__page {
+.createAdvert {
+  h2 {
+    color: var(--mid-color);
+    margin: 2rem 0;
+  }
 }

@@ -1,12 +1,14 @@
 .header {
   padding: 2.5rem;
   background-color: var(--dark-color);
+  background: linear-gradient(180deg, rgba(27, 142, 114, 1) 0%, rgba(20, 103, 82, 1) 100%);
   color: var(--reverse-text-color);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   gap: 2.5rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .logo a {
@@ -49,7 +51,7 @@ nav {
 .nav__navigation a:link,
 .nav__navigation a:visited {
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.2);
   color: var(--reverse-text-color);
   font-weight: 600;
   text-decoration: none;
@@ -59,16 +61,25 @@ nav {
 .nav__navigation a:active,
 .nav__navigation a:hover {
   padding: 1rem;
-  background-color: var(--bg-color);
-  color: var(--dark-color);
+  background-color: var(--mid-color-alpha);
+  color: var(--reverse-text-color);
   font-weight: 600;
   text-decoration: none;
   border-radius: 1rem;
 }
 
+.nav__navigation a.active {
+  background-color: var(--text-color);
+
+  &:hover {
+    cursor: default;
+    color: var(--reverse-text-color);
+  }
+}
+
 .nav__button {
   padding: 0 1.5rem;
-  background-color: var(--text-color);
+  background-color: rgba(0, 0, 0, 0.25);
   color: var(--reverse-text-color);
   font-weight: 600;
   border: 0;
@@ -79,7 +90,8 @@ nav {
 }
 
 .nav__button:hover {
-  background-color: var(--accent-dark);
+  background-color: var(--mid-color-alpha);
+  color: var(--reverse-text-color);
 }
 
 @keyframes cart {

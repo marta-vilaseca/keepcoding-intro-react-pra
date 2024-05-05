@@ -8,11 +8,10 @@ export default function Footer() {
         <a href="https://github.com/marta-vilaseca" target="_blank">
           Marta Vilaseca
         </a>
-        for
+        &copy; 2024 for
         <a href="https://keepcoding.io/" target="_blank">
           KeepCoding Tech School
         </a>
-        (2024)
       </p>
     </footer>
   );

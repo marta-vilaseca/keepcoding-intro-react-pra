@@ -1,0 +1,52 @@
+.create-advert__form {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: stretch;
+
+  p {
+    display: inline-flex;
+  }
+
+  .form__label,
+  .radiogroup__label {
+    width: 30%;
+    text-align: left;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    width: 70%;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 1rem;
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+    text-align: left;
+    display: flex;
+  }
+
+  .radiogroup__options {
+    display: inline-flex;
+    gap: 1rem;
+  }
+
+  .form__button {
+    line-height: 3.5rem;
+    border-radius: 1rem;
+    color: var(--reverse-text-color);
+    outline: none;
+    border: 0;
+
+    &:enabled {
+      background-color: var(--dark-color);
+    }
+  }
+}

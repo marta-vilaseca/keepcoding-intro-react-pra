@@ -1,15 +1,21 @@
 import P from "prop-types";
 import { Link } from "react-router-dom";
+import defaultPhoto from "../../assets/no-photo.png";
 import "./advertListItem.css";
 
-export default function AdvertListItem({ id, name, price, sale, tags }) {
+export default function AdvertListItem({ id, name, price, sale, photo, tags }) {
   return (
-    <div className="advert__card">
-      <span className="card__sale">{sale ? "Venta" : "Compra"}</span>
-      <h3 className="card__title">
-        <Link to={`/adverts/${id}`}>{name}</Link>
-      </h3>
-      <p className="card__price">{price} €</p>
+    <li className="advert__card">
+      <span className="card__price">{price}&euro;</span>
+      <div className="card__info">
+        <span className="card__sale">{sale ? "Venta" : "Compra"}</span>
+        <h3 className="card__title">
+          <Link to={`/adverts/${id}`}>{name}</Link>
+        </h3>
+      </div>
+      <div className="card__photo">
+        <Link to={`/adverts/${id}`}>{photo ? <img src={photo} alt={name} /> : <img src={defaultPhoto} alt="No photo provided" />}</Link>
+      </div>
       <ul className="card__tags">
         {tags.map((tag) => (
           <li key={tag} className="card__tag">
@@ -17,13 +23,29 @@ export default function AdvertListItem({ id, name, price, sale, tags }) {
           </li>
         ))}
       </ul>
-    </div>
+    </li>
   );
 }
 
 AdvertListItem.propTypes = {
+  id: P.string.isRequired,
   name: P.string.isRequired,
   price: P.number.isRequired,
   sale: P.bool.isRequired,
   tags: P.arrayOf(P.string).isRequired,
 };
+
+// <li key={id} className="advert__card">
+//   <span className="card__sale">{sale ? "Venta" : "Compra"}</span>
+//   <h3 className="card__title">
+//     <Link to={`/adverts/${id}`}>{name}</Link>
+//   </h3>
+//   <p className="card__price">{price} €</p>
+//   <ul className="card__tags">
+//     {tags.map((tag) => (
+//       <li key={tag} className="card__tag">
+//         {tag}
+//       </li>
+//     ))}
+//   </ul>
+// </li>

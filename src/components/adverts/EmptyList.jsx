@@ -1,12 +1,13 @@
-import { Link } from "react-router-dom";
+import "./emptyList.css";
 
-export default function EmptyList() {
+export default function EmptyList({ title, children }) {
   return (
-    <div>
-      <p>¿Te animas a crear el primero?</p>
-      <Link to="/adverts/new">
-        <button>Crear anuncio</button>
-      </Link>
+    <div className="empty__container">
+      <div className="empty__results">
+        <h2>¡Vaya!</h2>
+        <h3>{title}</h3>
+        <div className="empty__message">{children}</div>
+      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { deleteAdvert, getAdvert } from "../../services/advertsService";
 import "./advertpage.css";
 
 export function AdvertPage() {
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const params = useParams();
   const [advert, setAdvert] = useState(null);
@@ -20,6 +21,8 @@ export function AdvertPage() {
       } catch (error) {
         if (error.status === 404) {
           navigate("/404");
+        } else {
+          setError(error);
         }
       }
     }
@@ -31,7 +34,7 @@ export function AdvertPage() {
       await deleteAdvert(params.id);
       navigate("/adverts");
     } catch (error) {
-      console.error("Failed to delete ad:", error);
+      setError(error);
     }
   };
 
@@ -43,10 +46,20 @@ export function AdvertPage() {
     setShowConfirmDelete(false);
   };
 
+  const resetError = () => {
+    setError(null);
+    setShowConfirmDelete(false);
+  };
+
   return (
     <>
       {advert && (
         <Layout title={advert.name} page="individual">
+          {error && (
+            <div className="error-message" onClick={resetError}>
+              ERROR {error.status}: {error.message}
+            </div>
+          )}
           <div className="advert__individual">
             <button onClick={confirmDelete} className="button__delete">
               Borrar anuncio
@@ -64,10 +77,10 @@ export function AdvertPage() {
               <p className="adv__ind__price card-price">{advert.price}&euro;</p>
             </div>
             <div className="adv__ind__photo">
-              {advert.photo ? <img src={advert.photo} alt={advert.name} style={{ maxWidth: "100%" }} /> : <img src={defaultPhoto} alt="Default" style={{ maxWidth: "100%" }} />}
+              {advert.photo ? <img src={advert.photo} alt={advert.name} style={{ maxWidth: "100%" }} /> : <img src={defaultPhoto} alt="No photo provided" style={{ maxWidth: "100%" }} />}
             </div>
           </div>
-          {showConfirmDelete && <Dialog dialogText="Are you sure you want to delete this ad?" confirmAction={handleDelete} cancelAction={cancelDelete} />}
+          {showConfirmDelete && error === null && <Dialog dialogText="Are you sure you want to delete this ad?" confirmAction={handleDelete} cancelAction={cancelDelete} />}
         </Layout>
       )}
     </>

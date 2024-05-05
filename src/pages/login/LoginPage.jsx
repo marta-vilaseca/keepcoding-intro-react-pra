@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Button } from "../../components/common/Button.jsx";
+import { FormCheckbox } from "../../components/common/formCheckbox.jsx";
+import { FormInputText } from "../../components/common/formInputText.jsx";
 import Layout from "../../components/layout/Layout.jsx";
 import { useAuth } from "../../context/AuthContextProvider.jsx";
 import { login } from "../../services/loginService.js";
@@ -50,27 +53,24 @@ export function LoginPage() {
           <label className="form__label" htmlFor="email">
             Email
           </label>
-          <input className="form__inputfield" type="text" id="email" name="email" value={email} onChange={handleChange} required />
+          <FormInputText className="form__inputfield" id="email" name="email" value={email} onChange={handleChange} required />
         </p>
         <p>
           <label className="form__label" htmlFor="password">
             Password
           </label>
-          <input className="form__inputfield" type="password" id="password" name="password" value={password} onChange={handleChange} required />
+          <FormInputText className="form__inputfield" type="password" id="password" name="password" value={password} onChange={handleChange} required />
         </p>
         <p className="with__checkbox">
-          <label className="form__label" htmlFor="password">
-            Remember me
-          </label>
-          <input type="checkbox" id="rememberMe" name="rememberMe" value={rememberMe} onChange={handleChange} />
+          <FormCheckbox labelText="Remember me" id="rememberMe" name="rememberMe" value={rememberMe} onChange={handleChange} />
         </p>
-        <button className="form__button" type="submit" disabled={buttonDisabled}>
+        <Button className="form__button" type="submit" disabled={buttonDisabled}>
           Log in
-        </button>
+        </Button>
       </form>
       {error && (
-        <div className="loginPage-error" onClick={resetError}>
-          {error.message}
+        <div className="error-message" onClick={resetError}>
+          ERROR {error.status}: {error.message}
         </div>
       )}
     </Layout>

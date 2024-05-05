@@ -1,9 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../../components/common/Button";
+import { FormCheckbox } from "../../components/common/formCheckbox";
+import { FormFieldset } from "../../components/common/formFieldset";
+import { FormInputText } from "../../components/common/formInputText";
+import { FormRadioButton } from "../../components/common/formRadioButton";
 import Layout from "../../components/layout/Layout";
-import { createAdvert } from "../../services/advertsService";
+// import { createAdvert, getAllTags } from "../../services/advertsService";
+import { createAdvert, getAllTags } from "../../services/advertsService";
+import "./newAdvertPage.css";
 
 export function NewAdvertPage() {
+  const [error, setError] = useState(null);
+  const [allTags, setAllTags] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -13,6 +22,18 @@ export function NewAdvertPage() {
   });
   const navigate = useNavigate();
   const inputFileRef = useRef();
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const tags = await getAllTags();
+        setAllTags(tags);
+      } catch (error) {
+        throw new Error("Failed to fetch tags. Please try again later.");
+      }
+    };
+    fetchTags();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,13 +51,16 @@ export function NewAdvertPage() {
       const createdAdvert = await createAdvert(formData);
       navigate(`/adverts/${createdAdvert.id}`);
     } catch (error) {
+      console.log(error);
       if (error.status === 401) {
         navigate("/login");
       } else {
-        console.error(error);
+        setError(error);
       }
     }
   };
+
+  const resetError = () => setError(null);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -56,61 +80,46 @@ export function NewAdvertPage() {
   const buttonDisabled = !formData.name || !formData.price || formData.tags.length === 0;
 
   return (
-    <Layout title="Create New Advert">
-      <form id="listing-creation-form" onSubmit={handleSubmit} encType="multipart/form-data">
+    <Layout title="Create New Advert" page="createAdvert">
+      <form id="listing-creation-form" className="create-advert__form" onSubmit={handleSubmit} encType="multipart/form-data">
         <div id="loader" className="hidden">
           <div className="loader"></div>
         </div>
         <p>
           <label className="form__label" htmlFor="name">
-            Nombre <em>*</em>
+            Nombre
           </label>
-          <input onChange={handleChange} className="form__inputfield" type="text" id="name" name="name" value={formData.name} required />
+          <FormInputText onChange={handleChange} className="form__inputfield" id="name" name="name" value={formData.name} required />
         </p>
         <p>
           <label className="form__label" htmlFor="price">
-            Precio <em>*</em>
+            Precio
           </label>
-          <input onChange={handleChange} className="form__inputfield" type="number" id="price" name="price" value={formData.price} required />
+          <FormInputText onChange={handleChange} className="form__inputfield" type="number" id="price" name="price" value={formData.price} required />
         </p>
-        <fieldset className="form__options">
-          <span className="form__label">
-            Tipo de anuncio <em>*</em>
-          </span>
-          <span className="options">
-            <input onChange={handleChange} type="radio" id="venta" name="sale" value={true} checked={formData.sale === true} />
-            <label htmlFor="venta">Venta</label>
-            <input onChange={handleChange} type="radio" id="compra" name="sale" value={false} checked={formData.sale === false} />
-            <label htmlFor="compra">Compra</label>
-          </span>
-        </fieldset>
+        <FormFieldset className="form__options" labelText="Tipo de anuncio">
+          <FormRadioButton onChange={handleChange} type="radio" id="venta" name="sale" value={true} checked={formData.sale === true} />
+          <FormRadioButton onChange={handleChange} type="radio" id="compra" name="sale" value={false} checked={formData.sale === false} />
+        </FormFieldset>
         <p>
           <label className="form__label" htmlFor="photo">
             Foto{" "}
           </label>
           <input className="form__inputfield" type="file" ref={inputFileRef} id="photo" name="photo" accept="image/png, image/jpeg" />
         </p>
-        <fieldset className="form__options">
-          <span className="form__label">
-            Tags <em>*</em>
-          </span>
-          <span className="options">
-            <input onChange={handleChange} type="checkbox" id="lifestyle" name="tags" value="lifestyle" />
-            <label htmlFor="lifestyle">Lifestyle</label>
-            <input onChange={handleChange} type="checkbox" id="mobile" name="tags" value="mobile" />
-            <label htmlFor="mobile">Mobile</label>
-            <input onChange={handleChange} type="checkbox" id="motor" name="tags" value="motor" />
-            <label htmlFor="motor">Motor</label>
-            <input onChange={handleChange} type="checkbox" id="work" name="tags" value="work" />
-            <label htmlFor="work">Work</label>
-          </span>
-        </fieldset>
-        <button className="form__button" type="submit" disabled={buttonDisabled}>
+        <FormFieldset className="form__options" labelText="Tags">
+          {allTags.map((tag) => (
+            <FormCheckbox key={tag} id={tag} labelText={tag} name="tags" value={tag} onChange={handleChange} />
+          ))}
+        </FormFieldset>
+        <Button className="form__button" type="submit" disabled={buttonDisabled}>
           Crear anuncio
-        </button>
-        <p className="form__footnote">
-          <em>*</em> campos obligatorios
-        </p>
+        </Button>
+        {error && (
+          <div className="error-message" onClick={resetError}>
+            ERROR: {error.message}
+          </div>
+        )}
       </form>
     </Layout>
   );
