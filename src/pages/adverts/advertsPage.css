@@ -15,38 +15,41 @@
 .adverts__filter {
   display: flex;
   align-items: center;
+}
 
-  form {
-    display: flex;
-    gap: 1rem;
-    margin: 0 auto;
+.adverts__filter form {
+  display: grid;
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+.adverts__filter .tag__options {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  row-gap: 0.5rem;
+  justify-content: center;
+}
+
+.adverts__filter label {
+  height: 3rem;
+  gap: 0.5rem;
+
+  &:first-child input[type="checkbox"]:checked + span {
+    font-weight: 700;
+    color: var(--neutral-mid-text);
   }
+}
 
-  .tag__options {
-    display: flex;
-    gap: 1.5rem;
-  }
+.adverts__filter button {
+  border: 0;
+  border-radius: 1rem;
+  padding: 0 2rem;
+  line-height: 3rem;
+  background-color: var(--neutral-mid);
 
-  label {
-    height: 4rem;
-    gap: 0.5rem;
-
-    &:first-child input[type="checkbox"]:checked + span {
-      font-weight: 700;
-      color: var(--dark-gray);
-    }
-  }
-
-  button {
-    border: 0;
-    border-radius: 1rem;
-    padding: 0 2rem;
-    line-height: 3rem;
-    background-color: var(--mid-gray);
-
-    &:hover {
-      background-color: var(--darker-gray);
-    }
+  &:hover {
+    background-color: var(--neutral-text);
   }
 }
 
@@ -57,9 +60,32 @@
 }
 
 @media (min-width: 768px) {
+  .adverts__filter form {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    input {
+      grid-area: 1 / 1 / 2 / 3;
+    }
+    select {
+      grid-area: 1 / 3 / 2 / 5;
+    }
+    .tag__options {
+      grid-area: 2 / 1 / 3 / 4;
+    }
+    button {
+      grid-area: 2 / 4 / 3 / 5;
+    }
+  }
+
   .adverts__list {
     grid-template-columns: repeat(3, 1fr);
     gap: 2.5rem;
+  }
+}
+
+@media (min-width: 980px) {
+  .adverts__filter form {
+    display: flex;
   }
 }
 

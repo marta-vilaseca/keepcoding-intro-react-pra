@@ -1,20 +1,28 @@
 .footer {
   padding: 2rem;
   background-color: var(--text-color);
+  background: linear-gradient(180deg, var(--text-color) 0%, rgb(33, 39, 38) 100%);
   color: var(--reverse-text-color);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  font-size: 1.7rem;
+  display: grid;
+  place-items: center;
 }
 
-.footer p {
+.footer ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer li {
   display: inline-flex;
+  justify-content: center;
   gap: 1rem;
 }
 
 .footer a:link,
 .footer a:visited {
-  color: var(--mid-color);
+  color: var(--color-mid);
   font-weight: bold;
   text-decoration: none;
 }
@@ -25,5 +33,26 @@
 }
 
 .emojicon {
-  font-size: 2.5rem;
+  font-size: 3rem;
 }
+
+@media (min-width: 768px) {
+  .footer {
+    font-size: 1.5rem;
+  }
+  .footer ul {
+    flex-direction: row;
+  }
+  .emojicon {
+    font-size: 2.5rem;
+  }
+}
+
+/* @media (prefers-color-scheme: dark) {
+  .footer {
+    background-color: #1e1e1e;
+    background: linear-gradient(360deg, #000 0%, rgb(28, 33, 32) 100%);
+
+    color: #f3f1ebff;
+  }
+} */

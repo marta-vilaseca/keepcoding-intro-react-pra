@@ -9,8 +9,10 @@ import { Dialog } from "../common/Dialog";
 import "./header.css";
 
 export default function Header() {
+  const [headerError, setHeaderError] = useState(null);
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
   const [username, setUsername] = useState("");
+
   const navigate = useNavigate();
   const { isLogged, onLogout } = useAuth();
 
@@ -24,10 +26,9 @@ export default function Header() {
             setUsername(fetchedUsername);
           }
         } catch (error) {
-          console.error("Error fetching username", error);
+          setHeaderError(`Error fetching username: ${error.message}`);
         }
       };
-
       fetchUsername();
     }
   }, [isLogged, setUsername]);
@@ -38,9 +39,11 @@ export default function Header() {
       onLogout();
       navigate("/login");
     } catch (error) {
-      console.error("Logout failed:", error);
+      setHeaderError(`Logout failed: ${error.message}`);
     }
   };
+
+  const resetError = () => setHeaderError(null);
 
   const confirmLogout = () => {
     setShowConfirmLogout(true);
@@ -52,6 +55,11 @@ export default function Header() {
 
   return (
     <>
+      {headerError && (
+        <div className="error-message" onClick={resetError}>
+          ERROR: {headerError}
+        </div>
+      )}
       <header className="header">
         <h1 className="logo">
           <Link to={`/`}>
@@ -61,7 +69,7 @@ export default function Header() {
         {isLogged && (
           <nav>
             <p className="nav__user-greeting">
-              Hola <strong>{username}</strong>!
+              Welcome back <strong>{username}</strong>!
             </p>
             <ul className="nav__navigation">
               <li>
@@ -81,7 +89,9 @@ export default function Header() {
           </nav>
         )}
       </header>
-      {showConfirmLogout && <Dialog dialogText="Are you sure you want to log out?" confirmAction={handleLogout} cancelAction={cancelLogout} />}
+      {showConfirmLogout && headerError === null && (
+        <Dialog dialogText="Are you sure you want to log out?" confirmAction={handleLogout} confirmActionText="log out" cancelAction={cancelLogout} cancelActionText="cancel" />
+      )}
     </>
   );
 }

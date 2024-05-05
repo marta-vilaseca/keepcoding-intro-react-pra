@@ -4,9 +4,9 @@ import AdvertListItem from "../../components/adverts/AdvertListItem";
 import EmptyList from "../../components/adverts/EmptyList";
 import { Button } from "../../components/common/Button";
 import { Loader } from "../../components/common/Loader";
-import { FormCheckbox } from "../../components/common/formCheckbox";
-import { FormInputText } from "../../components/common/formInputText";
-import { FormSelect } from "../../components/common/formSelect";
+import { FormCheckbox } from "../../components/common/formElements/formCheckbox";
+import { FormInputText } from "../../components/common/formElements/formInputText";
+import { FormSelect } from "../../components/common/formElements/formSelect";
 import Layout from "../../components/layout/Layout";
 import { getAdverts, getAllTags } from "../../services/advertsService";
 import "./advertsPage.css";
@@ -26,10 +26,13 @@ export function AdvertsPage() {
   useEffect(() => {
     const fetchTags = async () => {
       try {
+        setIsLoading(true);
         const tags = await getAllTags();
         setAllTags(tags);
       } catch (error) {
         setError(`Failed to fetch tags: ${error.message}`);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchTags();
@@ -98,7 +101,7 @@ export function AdvertsPage() {
       <div className="adverts__filter">
         <form>
           <FormInputText name="nameFilter" value={formData.nameFilter} onChange={handleChange} />
-          <FormSelect name="saleFilter" value={formData.saleFilter} onChange={handleChange} options={{ all: "All", true: "Sale", false: "Wanted" }} />
+          <FormSelect name="saleFilter" value={formData.saleFilter} onChange={handleChange} options={{ all: "All", true: "For sale", false: "Wanted" }} />
           <div className="tag__options">
             <FormCheckbox key="any" id="any" labelText="any tag" name="tagsFilter" value="" checked={formData.tagsFilter.length === 0} onChange={handleChange} />
             {allTags.map((tag) => (
@@ -118,9 +121,11 @@ export function AdvertsPage() {
               ))}
             </ul>
           ) : (
-            <EmptyList title="No se han encontrado anuncios con estos filtros">
-              <p>(Prueba de quitar alguno)</p>
-            </EmptyList>
+            !isLoading && (
+              <EmptyList title="No ads found with these filters">
+                <p>(Try removing some)</p>
+              </EmptyList>
+            )
           )}
         </>
       ) : (
@@ -131,10 +136,10 @@ export function AdvertsPage() {
             </div>
           )}
           {!isLoading && (
-            <EmptyList title="¡No hay anuncios todavía!">
-              <p>¿Te animas a crear el primero?</p>
+            <EmptyList title="It seems like there are no ads yet!">
+              <p>What do you think about creating one?</p>
               <Link to="/adverts/new" className="button__link">
-                Crear anuncio
+                Create advert
               </Link>
             </EmptyList>
           )}

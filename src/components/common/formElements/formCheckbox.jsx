@@ -1,3 +1,5 @@
+import "./formElements.css";
+
 export function FormCheckbox({ id, labelText, name, value, checked, onChange }) {
   return (
     <label key={id} htmlFor={id}>

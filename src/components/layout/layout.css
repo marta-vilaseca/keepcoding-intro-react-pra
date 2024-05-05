@@ -15,13 +15,15 @@
   padding: 3rem 2rem;
 }
 
+/* Basic layout styling for INDIVIDUAL ADVERT page
+--------------------------------------------------- */
 .individual {
   position: relative;
   max-width: 760px;
 
   h2 {
     text-align: left;
-    color: var(--dark-color);
+    color: var(--color-mid-text);
     font-size: 2.5rem;
     font-weight: 700;
   }
@@ -31,6 +33,8 @@
   }
 }
 
+/* Basic layout styling for the LOGIN page
+--------------------------------------------------- */
 .login {
   position: relative;
 
@@ -54,18 +58,22 @@
   }
 }
 
+/* Basic layout styling for CREATE ADVERT page
+--------------------------------------------------- */
 .createAdvert {
   h2 {
-    color: var(--mid-color);
+    color: var(--color-mid);
     margin: 2rem 0;
   }
 }
 
+/* Basic layout styling for the NOT FOUND page
+--------------------------------------------------- */
 .notfound {
   display: grid;
   place-items: center;
   position: relative;
-  color: var(--dark-gray);
+  color: var(--neutral-mid-text);
 
   &::before {
     content: "";

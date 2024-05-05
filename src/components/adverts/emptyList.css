@@ -8,32 +8,34 @@
 
 .empty__results {
   padding-top: 3rem;
-  color: var(--error-light);
-  h2 {
-    font-size: 5rem;
-    line-height: 8rem;
-  }
+  color: var(--error-bg);
+}
 
-  h3 {
-    font-size: 2rem;
-    line-height: 3.8rem;
-  }
+.empty__results h2 {
+  font-size: 5rem;
+  line-height: 8rem;
+}
 
-  .empty__message {
-    font-size: 1.6rem;
-    line-height: 3.6rem;
-    font-weight: 600;
-    color: var(--mid-gray);
-  }
-  .button__link {
-    background-color: var(--mid-gray);
+.empty__results h3 {
+  font-size: 2rem;
+  line-height: 3.8rem;
+}
+
+.empty__results .empty__message {
+  font-size: 1.6rem;
+  line-height: 3.6rem;
+  font-weight: 600;
+  color: var(--neutral-mid);
+}
+
+.empty__results .button__link {
+  background-color: var(--neutral-mid);
+  color: var(--reverse-text-color);
+  margin: 1rem;
+  line-height: 3.8rem;
+
+  &:hover {
+    background-color: var(--neutral-text);
     color: var(--reverse-text-color);
-    margin: 1rem;
-    line-height: 3.8rem;
-
-    &:hover {
-      background-color: var(--darker-gray);
-      color: var(--reverse-text-color);
-    }
   }
 }

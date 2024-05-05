@@ -9,11 +9,12 @@ import "./advertpage.css";
 
 export function AdvertPage() {
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const params = useParams();
   const [advert, setAdvert] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const params = useParams();
 
   useEffect(() => {
     async function getAdvertFromService() {
@@ -36,10 +37,13 @@ export function AdvertPage() {
 
   const handleDelete = async () => {
     try {
+      setIsLoading(true);
       await deleteAdvert(params.id);
       navigate("/adverts");
     } catch (error) {
       setError(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -72,11 +76,10 @@ export function AdvertPage() {
           )}
           <div className="advert__individual">
             <button onClick={confirmDelete} className="button__delete">
-              Borrar anuncio
+              Delete ad
             </button>
             <div className="adv__ind__details">
               <p className="adv__ind__sale">{advert.sale ? "Venta" : "Compra"}</p>
-
               <ul className="adv__ind__tags">
                 {advert.tags.map((tag) => (
                   <li key={tag} className="card__tag">
@@ -90,7 +93,9 @@ export function AdvertPage() {
               {advert.photo ? <img src={advert.photo} alt={advert.name} style={{ maxWidth: "100%" }} /> : <img src={defaultPhoto} alt="No photo provided" style={{ maxWidth: "100%" }} />}
             </div>
           </div>
-          {showConfirmDelete && error === null && <Dialog dialogText="Are you sure you want to delete this ad?" confirmAction={handleDelete} cancelAction={cancelDelete} />}
+          {showConfirmDelete && error === null && (
+            <Dialog dialogText="Are you sure you want to delete this ad?" confirmAction={handleDelete} confirmActionText="delete" cancelAction={cancelDelete} cancelActionText="cancel" />
+          )}
         </Layout>
       )}
     </>

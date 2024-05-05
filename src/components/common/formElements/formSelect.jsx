@@ -1,3 +1,5 @@
+import "./formElements.css";
+
 export function FormSelect({ name, value, onChange, options }) {
   return (
     <select name={name} value={value} onChange={onChange}>

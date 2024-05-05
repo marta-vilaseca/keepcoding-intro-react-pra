@@ -8,7 +8,7 @@ export default function AdvertListItem({ id, name, price, sale, photo, tags }) {
     <li className="advert__card">
       <span className="card__price">{price}&euro;</span>
       <div className="card__info">
-        <span className="card__sale">{sale ? "Venta" : "Compra"}</span>
+        <span className="card__sale">{sale ? "For sale" : "Wanted"}</span>
         <h3 className="card__title">
           <Link to={`/adverts/${id}`}>{name}</Link>
         </h3>
@@ -32,20 +32,6 @@ AdvertListItem.propTypes = {
   name: P.string.isRequired,
   price: P.number.isRequired,
   sale: P.bool.isRequired,
+  photo: P.string,
   tags: P.arrayOf(P.string).isRequired,
 };
-
-// <li key={id} className="advert__card">
-//   <span className="card__sale">{sale ? "Venta" : "Compra"}</span>
-//   <h3 className="card__title">
-//     <Link to={`/adverts/${id}`}>{name}</Link>
-//   </h3>
-//   <p className="card__price">{price} €</p>
-//   <ul className="card__tags">
-//     {tags.map((tag) => (
-//       <li key={tag} className="card__tag">
-//         {tag}
-//       </li>
-//     ))}
-//   </ul>
-// </li>

@@ -38,7 +38,6 @@ export const getUserName = async (token) => {
 
     return username;
   } catch (error) {
-    console.error("Error fetching user details:", error);
     throw error;
   }
 };

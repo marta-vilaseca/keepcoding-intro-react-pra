@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { Dialog, DialogRef } from "src/components";
+import { Dialog } from "src/components";
 
 function useConfirm(props) {
-  const dialogRef = (useRef < DialogRef) | (null > null);
+  const dialogRef = useRef(null);
 
   useEffect(() => {
     const rootElement = document.createElement("div");

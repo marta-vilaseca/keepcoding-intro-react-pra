@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/common/Button";
-import { FormCheckbox } from "../../components/common/formCheckbox";
-import { FormFieldset } from "../../components/common/formFieldset";
-import { FormInputText } from "../../components/common/formInputText";
-import { FormRadioButton } from "../../components/common/formRadioButton";
+import { Loader } from "../../components/common/Loader";
+import { FormCheckbox } from "../../components/common/formElements/formCheckbox";
+import { FormFieldset } from "../../components/common/formElements/formFieldset";
+import { FormInputText } from "../../components/common/formElements/formInputText";
+import { FormRadioButton } from "../../components/common/formElements/formRadioButton";
 import Layout from "../../components/layout/Layout";
-// import { createAdvert, getAllTags } from "../../services/advertsService";
 import { createAdvert, getAllTags } from "../../services/advertsService";
 import "./newAdvertPage.css";
 
 export function NewAdvertPage() {
   const [error, setError] = useState(null);
   const [allTags, setAllTags] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -26,10 +27,13 @@ export function NewAdvertPage() {
   useEffect(() => {
     const fetchTags = async () => {
       try {
+        setIsLoading(true);
         const tags = await getAllTags();
         setAllTags(tags);
       } catch (error) {
         throw new Error("Failed to fetch tags. Please try again later.");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchTags();
@@ -38,6 +42,7 @@ export function NewAdvertPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      setIsLoading(true);
       if (inputFileRef.current.files.length > 0) {
         const uploadedFile = inputFileRef.current.files[0];
         const allowedFormats = ["image/jpeg", "image/png"];
@@ -45,6 +50,7 @@ export function NewAdvertPage() {
         if (allowedFormats.includes(uploadedFile.type)) {
           formData.photo = uploadedFile;
         } else {
+          setIsLoading(false);
           throw new Error("Invalid file format. Only JPEG and PNG images are allowed.");
         }
       }
@@ -57,6 +63,8 @@ export function NewAdvertPage() {
       } else {
         setError(error);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -81,6 +89,7 @@ export function NewAdvertPage() {
 
   return (
     <Layout title="Create New Advert" page="createAdvert" showTitle>
+      {isLoading && <Loader />}
       <form id="listing-creation-form" className="create-advert__form" onSubmit={handleSubmit} encType="multipart/form-data">
         <p>
           <label className="form__label" htmlFor="name">

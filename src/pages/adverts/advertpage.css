@@ -4,8 +4,8 @@
 
 .button__delete {
   background-color: var(--bg-color);
-  color: var(--error-light);
-  border: 3px solid var(--error-light);
+  color: var(--error-bg);
+  border: 3px solid var(--error-bg);
   border-radius: 1rem;
   padding: 0.5rem 1rem;
   font-weight: 600;
@@ -16,7 +16,7 @@
 }
 
 .button__delete:hover {
-  background-color: var(--error-light);
+  background-color: var(--error-bg);
   color: var(--reverse-text-color);
   cursor: pointer;
 }
@@ -42,25 +42,25 @@
 .adv__ind__tags {
   display: flex;
   gap: 1rem;
+}
 
-  .card__tag {
-    line-height: 3rem;
-    height: 3.6rem;
-  }
+.adv__ind__tags .card__tag {
+  line-height: 3rem;
+  height: 3.6rem;
 }
 
 .adv__ind__photo {
   position: relative;
+}
 
-  img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;
-    border-radius: 1.5rem;
-    box-shadow: rgba(50, 50, 93, 0.15) 0px 13px 27px -5px, rgba(0, 0, 0, 0.2) 0px 8px 16px -8px;
-  }
+.adv__ind__photo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  border-radius: 1.5rem;
+  box-shadow: rgba(50, 50, 93, 0.15) 0px 13px 27px -5px, rgba(0, 0, 0, 0.2) 0px 8px 16px -8px;
 }
 
 .adv__ind__photo::after {
@@ -76,16 +76,17 @@
   display: inline-block;
   width: auto;
   height: 3.6rem;
-  background-color: var(--dark-gray);
-  border-radius: 0 0.5rem 0.5rem 0;
-  border-left: 1px solid var(--dark-gray);
+  background-color: var(--neutral-bg);
+  border-radius: 0.5rem 0 0 0.5rem;
+  border-left: 1px solid var(--neutral-bg);
   margin-left: auto;
   position: relative;
-  color: var(--reverse-text-color);
+  color: var(--text-color);
   font-weight: 600;
   font-size: 1.8rem;
   line-height: 3.6rem;
-  padding: 0 1rem 0 1.5rem;
+  padding: 0 1.5rem 0 1rem;
+  margin-right: 1.8rem;
 }
 
 /* triangle */
@@ -93,12 +94,12 @@
   content: "";
   position: absolute;
   display: block;
-  left: -1.8rem;
+  right: -1.8rem;
   width: 0;
   height: 0;
   border-top: 1.8rem solid transparent;
   border-bottom: 1.8rem solid transparent;
-  border-right: 1.8rem solid var(--dark-gray);
+  border-left: 1.8rem solid var(--neutral-bg);
 }
 
 /* circle */
@@ -110,6 +111,6 @@
   height: 0.6rem;
   display: block;
   position: absolute;
-  left: -5px;
+  right: -5px;
   top: 1.3rem;
 }
