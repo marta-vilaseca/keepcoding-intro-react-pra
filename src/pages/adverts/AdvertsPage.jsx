@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AdvertListItem from "../../components/adverts/AdvertListItem";
 import EmptyList from "../../components/adverts/EmptyList";
 import { Button } from "../../components/common/Button";
+import { Loader } from "../../components/common/Loader";
 import { FormCheckbox } from "../../components/common/formCheckbox";
 import { FormInputText } from "../../components/common/formInputText";
 import { FormSelect } from "../../components/common/formSelect";
@@ -14,6 +15,7 @@ export function AdvertsPage() {
   const [error, setError] = useState(null);
   const [adverts, setAdverts] = useState([]);
   const [allTags, setAllTags] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     nameFilter: "",
@@ -34,10 +36,13 @@ export function AdvertsPage() {
 
     const fetchAdverts = async () => {
       try {
+        setIsLoading(true);
         const adverts = await getAdverts();
         setAdverts(adverts);
       } catch (error) {
         setError(`Failed to fetch adverts: ${error.message}`);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchAdverts();
@@ -89,22 +94,23 @@ export function AdvertsPage() {
   };
 
   return (
-    <>
-      {adverts.length ? (
-        <Layout page="adverts">
-          <div className="adverts__filter">
-            <form>
-              <FormInputText name="nameFilter" value={formData.nameFilter} onChange={handleChange} />
-              <FormSelect name="saleFilter" value={formData.saleFilter} onChange={handleChange} options={{ all: "All", true: "Sale", false: "Wanted" }} />
-              <div className="tag__options">
-                <FormCheckbox key="any" id="any" labelText="any tag" name="tagsFilter" value="" checked={formData.tagsFilter.length === 0} onChange={handleChange} />
-                {allTags.map((tag) => (
-                  <FormCheckbox key={tag} id={tag} labelText={tag} name="tagsFilter" value={tag} checked={formData.tagsFilter.includes(tag)} onChange={handleChange} />
-                ))}
-              </div>
-              <Button onClick={handleClear}>Clear</Button>
-            </form>
+    <Layout page="adverts">
+      <div className="adverts__filter">
+        <form>
+          <FormInputText name="nameFilter" value={formData.nameFilter} onChange={handleChange} />
+          <FormSelect name="saleFilter" value={formData.saleFilter} onChange={handleChange} options={{ all: "All", true: "Sale", false: "Wanted" }} />
+          <div className="tag__options">
+            <FormCheckbox key="any" id="any" labelText="any tag" name="tagsFilter" value="" checked={formData.tagsFilter.length === 0} onChange={handleChange} />
+            {allTags.map((tag) => (
+              <FormCheckbox key={tag} id={tag} labelText={tag} name="tagsFilter" value={tag} checked={formData.tagsFilter.includes(tag)} onChange={handleChange} />
+            ))}
           </div>
+          <Button onClick={handleClear}>Clear</Button>
+        </form>
+      </div>
+      {isLoading && <Loader />}
+      {adverts.length ? (
+        <>
           {filteredAdverts.length > 0 ? (
             <ul className="adverts__list">
               {filteredAdverts.map(({ id, ...advert }) => (
@@ -116,22 +122,24 @@ export function AdvertsPage() {
               <p>(Prueba de quitar alguno)</p>
             </EmptyList>
           )}
-        </Layout>
+        </>
       ) : (
-        <Layout page="adverts">
+        <>
           {error && (
             <div className="error-message" onClick={resetError}>
               ERROR: {error}
             </div>
           )}
-          <EmptyList title="¡No hay anuncios todavía!">
-            <p>¿Te animas a crear el primero?</p>
-            <Link to="/adverts/new" className="button__link">
-              Crear anuncio
-            </Link>
-          </EmptyList>
-        </Layout>
+          {!isLoading && (
+            <EmptyList title="¡No hay anuncios todavía!">
+              <p>¿Te animas a crear el primero?</p>
+              <Link to="/adverts/new" className="button__link">
+                Crear anuncio
+              </Link>
+            </EmptyList>
+          )}
+        </>
       )}
-    </>
+    </Layout>
   );
 }

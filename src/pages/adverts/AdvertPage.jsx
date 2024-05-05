@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import defaultPhoto from "../../assets/no-photo.png";
 import { Dialog } from "../../components/common/Dialog";
+import { Loader } from "../../components/common/Loader";
 import Layout from "../../components/layout/Layout";
 import { deleteAdvert, getAdvert } from "../../services/advertsService";
 import "./advertpage.css";
@@ -12,10 +13,12 @@ export function AdvertPage() {
   const params = useParams();
   const [advert, setAdvert] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getAdvertFromService() {
       try {
+        setIsLoading(true);
         const advert = await getAdvert(params.id);
         setAdvert(advert);
       } catch (error) {
@@ -24,6 +27,8 @@ export function AdvertPage() {
         } else {
           setError(error);
         }
+      } finally {
+        setIsLoading(false);
       }
     }
     getAdvertFromService();
@@ -53,6 +58,11 @@ export function AdvertPage() {
 
   return (
     <>
+      {isLoading && (
+        <Layout page="individual">
+          <Loader />
+        </Layout>
+      )}
       {advert && (
         <Layout title={advert.name} page="individual" showTitle>
           {error && (

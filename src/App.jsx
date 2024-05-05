@@ -1,5 +1,4 @@
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-
 import RequireAuth from "./components/auth/RequireAuth";
 import { AdvertPage } from "./pages/adverts/AdvertPage";
 import { AdvertsPage } from "./pages/adverts/AdvertsPage";
