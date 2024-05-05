@@ -5,6 +5,7 @@ import Nodepop from "../../assets/nodepop.svg?react";
 import { useAuth } from "../../context/AuthContextProvider";
 import { logout } from "../../services/loginService";
 import storage from "../../utils/storage";
+import { Button } from "../common/Button";
 import { Dialog } from "../common/Dialog";
 import "./header.css";
 
@@ -61,34 +62,37 @@ export default function Header() {
         </div>
       )}
       <header className="header">
-        <h1 className="logo">
-          <Link to={`/`}>
-            <Nodepop className="icon" /> <span>NodePop</span>
-          </Link>
-        </h1>
-        {isLogged && (
-          <nav>
-            <p className="nav__user-greeting">
-              Welcome back <strong>{username}</strong>!
-            </p>
-            <ul className="nav__navigation">
-              <li>
-                <NavLink to="/adverts" end>
-                  Adverts
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/adverts/new">Create new advert</NavLink>
-              </li>
-              <li>
-                <button className="nav__button" onClick={confirmLogout}>
-                  Log Out
-                </button>
-              </li>
-            </ul>
-          </nav>
-        )}
+        <div className="header__inner">
+          <h1 className="logo">
+            <Link to={`/`}>
+              <Nodepop className="icon" /> <span>NodePop</span>
+            </Link>
+          </h1>
+          {isLogged && (
+            <nav>
+              <p className="nav__user-greeting">
+                Welcome back <strong>{username}</strong>!
+              </p>
+              <ul className="nav__navigation">
+                <li>
+                  <NavLink to="/adverts" end>
+                    Adverts
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/adverts/new">Create new advert</NavLink>
+                </li>
+                <li>
+                  <Button className="nav__button" onClick={confirmLogout}>
+                    Log Out
+                  </Button>
+                </li>
+              </ul>
+            </nav>
+          )}
+        </div>
       </header>
+
       {showConfirmLogout && headerError === null && (
         <Dialog dialogText="Are you sure you want to log out?" confirmAction={handleLogout} confirmActionText="log out" cancelAction={cancelLogout} cancelActionText="cancel" />
       )}

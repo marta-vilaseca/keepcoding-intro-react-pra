@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import defaultPhoto from "../../assets/no-photo.png";
+import { Button } from "../../components/common/Button";
 import { Dialog } from "../../components/common/Dialog";
 import { Loader } from "../../components/common/Loader";
 import Layout from "../../components/layout/Layout";
@@ -75,9 +76,9 @@ export function AdvertPage() {
             </div>
           )}
           <div className="advert__individual">
-            <button onClick={confirmDelete} className="button__delete">
+            <Button onClick={confirmDelete} className="button__delete">
               Delete ad
-            </button>
+            </Button>
             <div className="adv__ind__details">
               <p className="adv__ind__sale">{advert.sale ? "Venta" : "Compra"}</p>
               <ul className="adv__ind__tags">

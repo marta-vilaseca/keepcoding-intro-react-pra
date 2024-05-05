@@ -3,12 +3,19 @@
   background-color: var(--color-mid-text);
   background: linear-gradient(180deg, var(--color-mid-text) 0%, var(--color-text) 100%);
   color: var(--reverse-text-color);
+
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.header__inner {
+  width: 100%;
+  max-width: 1220px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   gap: 2.5rem;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  margin: 0 auto;
 }
 
 .logo a {
@@ -88,11 +95,12 @@ nav {
   margin-top: -1px;
   font-size: 1.5rem;
   line-height: 3.8rem;
+}
 
-  & :hover {
-    background-color: var(--color-mid-alpha-40);
-    color: var(--reverse-text-color);
-  }
+.nav__button:hover {
+  background-color: var(--color-mid-alpha-40);
+  color: var(--reverse-text-color);
+  cursor: pointer;
 }
 
 @keyframes cart {
@@ -149,7 +157,7 @@ nav {
 }
 
 @media (min-width: 960px) {
-  .header {
+  .header__inner {
     flex-direction: row;
   }
 }

@@ -113,7 +113,7 @@ export function AdvertsPage() {
       </div>
       {isLoading && <Loader />}
       {adverts.length ? (
-        <>
+        <div>
           {filteredAdverts.length > 0 ? (
             <ul className="adverts__list">
               {filteredAdverts.map(({ id, ...advert }) => (
@@ -127,7 +127,7 @@ export function AdvertsPage() {
               </EmptyList>
             )
           )}
-        </>
+        </div>
       ) : (
         <>
           {error && (
