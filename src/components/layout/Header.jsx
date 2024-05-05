@@ -10,8 +10,9 @@ import "./header.css";
 
 export default function Header() {
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
-  const { username, isLogged, onLogout } = useAuth();
+  const { isLogged, onLogout } = useAuth();
 
   useEffect(() => {
     if (isLogged) {
@@ -19,7 +20,8 @@ export default function Header() {
         try {
           const accessToken = storage.get("auth");
           if (accessToken) {
-            const username = await getUserName(accessToken);
+            const fetchedUsername = await getUserName(accessToken);
+            setUsername(fetchedUsername);
           }
         } catch (error) {
           console.error("Error fetching username", error);
@@ -28,7 +30,7 @@ export default function Header() {
 
       fetchUsername();
     }
-  }, [isLogged]);
+  }, [isLogged, setUsername]);
 
   const handleLogout = async () => {
     try {
