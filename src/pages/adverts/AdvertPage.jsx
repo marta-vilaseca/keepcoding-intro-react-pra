@@ -75,6 +75,7 @@ export function AdvertPage() {
               confirmAction={handleDelete}
               confirmActionText="delete"
               cancelActionText="cancel"
+              error={error}
             />
             {/* <Button onClick={confirmDelete} className="button__delete">
               Delete ad

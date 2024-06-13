@@ -44,7 +44,7 @@ export default function Header() {
       )}
       <header className="header">
         <div className="header__inner">
-          <h1 className="logo">
+          <h1 className={`logo ${!isLogged ? "centered" : ""}`}>
             <Link to={`/`}>
               <Nodepop className="icon" /> <span>NodePop</span>
             </Link>
@@ -69,6 +69,7 @@ export default function Header() {
                     confirmAction={handleLogout}
                     confirmActionText="log out"
                     cancelActionText="cancel"
+                    error={headerError}
                   />
                 </li>
               </ul>

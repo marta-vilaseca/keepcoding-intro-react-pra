@@ -18,6 +18,10 @@
   margin: 0 auto;
 }
 
+.logo.centered {
+  margin: 0 auto;
+}
+
 .logo a {
   display: flex;
   gap: 1rem;
