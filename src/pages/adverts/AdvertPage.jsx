@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import defaultPhoto from "../../assets/no-photo.png";
-import { Button } from "../../components/common/Button";
-import { Dialog } from "../../components/common/Dialog";
+// import { Button } from "../../components/common/Button";
+import { ConfirmationButton } from "../../components/common/ConfirmationButton";
 import { Loader } from "../../components/common/Loader";
 import Layout from "../../components/layout/Layout";
 import { deleteAdvert, getAdvert } from "../../services/advertsService";
@@ -11,8 +11,8 @@ import "./advertpage.css";
 export function AdvertPage() {
   const [error, setError] = useState(null);
   const [advert, setAdvert] = useState(null);
-  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const navigate = useNavigate();
   const params = useParams();
@@ -48,14 +48,6 @@ export function AdvertPage() {
     }
   };
 
-  const confirmDelete = () => {
-    setShowConfirmDelete(true);
-  };
-
-  const cancelDelete = () => {
-    setShowConfirmDelete(false);
-  };
-
   const resetError = () => {
     setError(null);
     setShowConfirmDelete(false);
@@ -76,9 +68,17 @@ export function AdvertPage() {
             </div>
           )}
           <div className="advert__individual">
-            <Button onClick={confirmDelete} className="button__delete">
+            <ConfirmationButton
+              buttonClassName="button__delete"
+              buttonText="Delete ad"
+              dialogText="Are you sure you want to delete this ad?"
+              confirmAction={handleDelete}
+              confirmActionText="delete"
+              cancelActionText="cancel"
+            />
+            {/* <Button onClick={confirmDelete} className="button__delete">
               Delete ad
-            </Button>
+            </Button> */}
             <div className="adv__ind__details">
               <p className="adv__ind__sale">{advert.sale ? "Venta" : "Compra"}</p>
               <ul className="adv__ind__tags">
@@ -94,9 +94,6 @@ export function AdvertPage() {
               {advert.photo ? <img src={advert.photo} alt={advert.name} style={{ maxWidth: "100%" }} /> : <img src={defaultPhoto} alt="No photo provided" style={{ maxWidth: "100%" }} />}
             </div>
           </div>
-          {showConfirmDelete && error === null && (
-            <Dialog dialogText="Are you sure you want to delete this ad?" confirmAction={handleDelete} confirmActionText="delete" cancelAction={cancelDelete} cancelActionText="cancel" />
-          )}
         </Layout>
       )}
     </>

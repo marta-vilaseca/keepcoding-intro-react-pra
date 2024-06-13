@@ -71,7 +71,7 @@ export function LoginPage() {
             <FormInputText className="form__inputfield" type="password" id="password" name="password" value={password} onChange={handleChange} required />
           </p>
           <p className="with__checkbox">
-            <FormCheckbox labelText="Remember me" id="rememberMe" name="rememberMe" value={rememberMe} onChange={handleChange} />
+            <FormCheckbox labelText="Remember me" id="rememberMe" name="rememberMe" checked={rememberMe} onChange={handleChange} />
           </p>
           <Button className="form__button" type="submit" disabled={buttonDisabled}>
             Log in
